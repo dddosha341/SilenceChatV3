@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.IdentityModel.Tokens;
 using Silence.Infrastructure.Services;
 using Silence.Infrastructure.Utils;
-using Silence.Infrastructure.ViewModels;
 
 namespace Silence.Infrastructure.ViewModels
 {

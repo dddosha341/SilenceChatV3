@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Silence.Web.Data;
 using Silence.Web.Entities;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
@@ -35,14 +32,14 @@ namespace Silence.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult  Get()
+        async public Task<IActionResult>  Get()
         {
             User? user = null;
 
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
                 var username = identity.FindFirst(ClaimTypes.Name)?.Value;
-                user = _db.GetUser(username);
+                user = await _db.GetUser(username);
             }
 
             if (user is null)
@@ -50,7 +47,7 @@ namespace Silence.Web.Controllers
                 return Unauthorized();
             }
 
-            var rooms = _db.GetRooms();
+            var rooms = await _db.GetRooms();
 
             var roomsViewModel = _mapper.Map<IEnumerable<Room>, IEnumerable<RoomViewModel>>(rooms);
 
@@ -67,7 +64,7 @@ namespace Silence.Web.Controllers
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
                 var username = identity.FindFirst(ClaimTypes.Name)?.Value;
-                user = _db.GetUser(username);
+                user = await _db.GetUser(username);
             }
 
             if (user is null)
@@ -75,7 +72,7 @@ namespace Silence.Web.Controllers
                 return Unauthorized();
             }
 
-            var room = _db.GetRoom(id);
+            var room = await _db.GetRoom(id);
             if (room == null)
                 return NotFound();
 
@@ -87,18 +84,18 @@ namespace Silence.Web.Controllers
         public async Task<ActionResult<Room>> Create(RoomViewModel viewModel)
         {
 
-            if (_db.IsExistsRoom(viewModel.Name))
+            if (await _db.IsExistsRoom(viewModel.Name))
                 return BadRequest("Invalid room name or room already exists");
 
-            var user = _db.GetUser(User.Identity.Name);
+            var user = await _db.GetUser(User.Identity.Name);
             var room = new Room()
             {
                 Name = viewModel.Name,
                 Admin = user
             };
 
-            _db.AddRoom(room);
-            _db.SaveChanges();
+            await _db.AddRoom(room);
+            await _db.SaveChanges();
 
             var createdRoom = _mapper.Map<Room, RoomViewModel>(room);
             await _hubContext.Clients.All.SendAsync("addChatRoom", createdRoom);
@@ -109,7 +106,7 @@ namespace Silence.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(int id, RoomViewModel viewModel)
         {
-            if (_db.IsExistsRoom(viewModel.Name))
+            if (await _db.IsExistsRoom(viewModel.Name))
                 return BadRequest("Invalid room name or room already exists");
 
             var room = _db.GetRoomByAdmin(id, User.Identity.Name).Result;
@@ -118,7 +115,7 @@ namespace Silence.Web.Controllers
                 return NotFound();
 
             room.Name = viewModel.Name;
-            _db.SaveChanges();
+            await _db.SaveChanges();
 
             var updatedRoom = _mapper.Map<Room, RoomViewModel>(room);
             await _hubContext.Clients.All.SendAsync("updateChatRoom", updatedRoom);
@@ -129,13 +126,13 @@ namespace Silence.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var room = _db.GetRoomByAdmin(id, User.Identity.Name).Result;
+            var room = await _db.GetRoomByAdmin(id, User.Identity.Name);
 
             if (room == null)
                 return NotFound();
 
-            _db.RemoveRoom(room);
-            _db.SaveChanges();
+            await _db.RemoveRoom(room);
+            await _db.SaveChanges();
 
             await _hubContext.Clients.All.SendAsync("removeChatRoom", room.Id);
             await _hubContext.Clients.Group(room.Name).SendAsync("onRoomDeleted");

@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Silence.Web.Data;
 using Silence.Web.Entities;
@@ -19,78 +16,78 @@ public class DbService
         _dbContext = dbContext;
     }
 
-    public User GetUser(string username)
+    async public Task<User> GetUser(string username)
     {
         return _dbContext.Users.FirstOrDefault(u => u.UserName == username);
     }
 
-    public void SaveChanges()
+    async public Task SaveChanges()
     {
         _dbContext.SaveChanges();
     }
 
-    public void AddUser(User user)
+    async public Task AddUser(User user)
     {
         _dbContext.Users.Add(user);
-        SaveChanges();
+        await this.SaveChanges();
     }
 
-    public void DeleteMessage(Message message)
+    async public Task DeleteMessage(Message message)
     {
         _dbContext.Messages.Remove(message);
-        SaveChanges();
+        await this.SaveChanges();
     }
 
-    public Message GetMessage(int id)
+    async public Task<Message> GetMessage(int id)
     {
         return _dbContext.Messages.FirstOrDefault(m => m.Id == id);
     }
 
-    public void AddMessage(Message message)
+    async public Task AddMessage(Message message)
     {
         _dbContext.Messages.Add(message);
-        SaveChanges();
+        await this.SaveChanges();
     }
 
-    public Room GetRoom(string roomName)
+    async public Task<Room> GetRoom(string roomName)
     {
         return _dbContext.Rooms.FirstOrDefault(r => r.Name == roomName);
     }
 
-    public IEnumerable<Message> GetMessages(int roomId)
+    async public Task<IEnumerable<Message>> GetMessages(int roomId)
     {
         return _dbContext.Messages.Where(m => m.ToRoomId == roomId);
     }
 
-    public IEnumerable<Room> GetRooms()
+    async public Task<IEnumerable<Room>> GetRooms()
     {
         return _dbContext.Rooms;
     }
 
-    public Room GetRoom(int roomId)
+    async public Task<Room> GetRoom(int roomId)
     {
         return _dbContext.Rooms.FirstOrDefault(r => r.Id == roomId);
     }
 
-    public bool IsExistsRoom(string roomName)
+    async public Task<bool> IsExistsRoom(string roomName)
     {
         return _dbContext.Rooms.Any(r => r.Name == roomName);
     }
 
-    public void AddRoom(Room room)
+    async public Task AddRoom(Room room)
     {
         _dbContext.Rooms.Add(room);
-        SaveChanges();
+        await SaveChanges();
     }
 
-    public Task<Room> GetRoomByAdmin(int id, string username)
+    async public Task<Room> GetRoomByAdmin(int id, string username)
     {
-        return _dbContext.Rooms.Include(r => r.Admin).Where(r => r.Id == id && r.Admin.UserName == username).FirstOrDefaultAsync();
+        return _dbContext.Rooms.Include(r => r.Admin).Where(r => r.Id == id && r.Admin.UserName == username).FirstOrDefaultAsync().Result;
     }
 
-    public void RemoveRoom(Room room)
+    async public Task RemoveRoom(Room room)
     {
         _dbContext.Rooms.Remove(room);
-        SaveChanges();
+        await this.SaveChanges();
     }
 }

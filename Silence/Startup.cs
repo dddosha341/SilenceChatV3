@@ -7,11 +7,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Silence.Web.Hubs;
 using Microsoft.OpenApi.Models;
+using Silence.Web.Services;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Silence.Web.Services;
 using System.Collections.Generic;
 using System;
 
@@ -41,6 +41,8 @@ namespace Silence.Web
             services.AddScoped<AuthService>();
 
             services.AddScoped<ConfigurationService>();
+
+            services.AddScoped<DbService>();
 
             services.AddSingleton<ConfigurationService>(); 
 

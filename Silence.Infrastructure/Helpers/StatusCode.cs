@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Silence.Infrastructure.Helpers
+﻿namespace Silence.Infrastructure.Helpers
 {
     public enum StatusCode
     {
