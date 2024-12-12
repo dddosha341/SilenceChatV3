@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silence.Web", "Silence\Sile
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silence.Infrastructure", "Silence.Infrastructure\Silence.Infrastructure.csproj", "{EC82A852-CEE0-46BF-8E79-80738B4EAA6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silence.App", "Silence.App\Silence.App.csproj", "{3B19F5E0-4425-49B4-BFBD-08FEDA257A9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EC82A852-CEE0-46BF-8E79-80738B4EAA6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC82A852-CEE0-46BF-8E79-80738B4EAA6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC82A852-CEE0-46BF-8E79-80738B4EAA6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B19F5E0-4425-49B4-BFBD-08FEDA257A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B19F5E0-4425-49B4-BFBD-08FEDA257A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B19F5E0-4425-49B4-BFBD-08FEDA257A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B19F5E0-4425-49B4-BFBD-08FEDA257A9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
