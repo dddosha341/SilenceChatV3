@@ -1,14 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Silence.Infrastructure.Utils;
-using Silence.Infrastructure.DataContracts;
 using Silence.Infrastructure.Services;
-using System.Threading;
 
 namespace Silence.Infrastructure.ViewModels
 {

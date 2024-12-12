@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Silence.Web.Data;
 using Silence.Web.Entities;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
@@ -39,7 +36,7 @@ namespace Silence.Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> Get(int id)
         {
-            var message = _db.GetMessage(id);
+            var message = await _db.GetMessage(id);
             if (message == null)
                 return NotFound();
 
@@ -48,13 +45,13 @@ namespace Silence.Web.Controllers
         }
 
         [HttpGet("Room/{roomName}")]
-        public IActionResult GetMessages(string roomName)
+        public async Task<IActionResult> GetMessages(string roomName)
         {
-            var room = _db.GetRoom(roomName);
+            var room = await _db.GetRoom(roomName);
             if (room == null)
                 return BadRequest();
 
-            var messages = _db.GetMessages(room.Id);
+            var messages = await _db.GetMessages(room.Id);
 
             var messagesViewModel = _mapper.Map<IEnumerable<Message>, IEnumerable<MessageViewModel>>(messages);
 
@@ -64,8 +61,8 @@ namespace Silence.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<Message>> Create(MessageViewModel viewModel)
         {
-            var user = _db.GetUser(User.Identity.Name);
-            var room = _db.GetRoom(viewModel.Room);
+            var user = await _db.GetUser(User.Identity.Name);
+            var room = await _db.GetRoom(viewModel.Room);
             if (room == null)
                 return BadRequest();
 
@@ -77,8 +74,8 @@ namespace Silence.Web.Controllers
                 Timestamp = DateTime.Now
             };
 
-            _db.AddMessage(msg);
-            _db.SaveChanges();
+            await _db.AddMessage(msg);
+            await _db.SaveChanges();
 
             // Broadcast the message
             var createdMessage = _mapper.Map<Message, MessageViewModel>(msg);
@@ -90,13 +87,13 @@ namespace Silence.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var message = _db.GetMessage(id);
+            var message = await _db.GetMessage(id);
 
             if (message == null)
                 return NotFound();
 
-            _db.DeleteMessage(message); 
-            _db.SaveChanges();
+            await _db.DeleteMessage(message); 
+            await _db.SaveChanges();
 
             await _hubContext.Clients.All.SendAsync("removeChatMessage", message.Id);
 

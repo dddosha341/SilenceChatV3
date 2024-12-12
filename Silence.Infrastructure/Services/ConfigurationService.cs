@@ -2,8 +2,6 @@
 
 namespace Silence.Server.Services;
 
-
-
 public class ConfigurationService
 {
     private IConfiguration _configuration;

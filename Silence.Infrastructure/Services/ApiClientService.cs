@@ -1,11 +1,8 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
-using System.Threading;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Silence.Infrastructure.ViewModels;
 using Silence.Infrastructure.DataContracts;
-using Silence.Infrastructure.ViewModels;
 
 namespace Silence.Infrastructure.Services;
 
