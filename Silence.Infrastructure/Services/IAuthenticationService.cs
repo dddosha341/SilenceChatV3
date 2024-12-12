@@ -1,5 +1,4 @@
-﻿
-namespace Silence.Infrastructure.Services;
+﻿namespace Silence.Infrastructure.Services;
 
 public interface IAuthenticationService
 {

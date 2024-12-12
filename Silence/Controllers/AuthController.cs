@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Silence.Web.Entities;
 using Silence.Web.Services;
-using Silence.Web.Data;
-using System.Linq;
+using System.Threading.Tasks;
 namespace Silence.Web.Controllers;
 
 [Route("api/[controller]")]
@@ -28,9 +27,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest request)
+    async public Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var user = _db.GetUser(request.UserName);
+        var user = await _db.GetUser(request.UserName);
         if (user == null ||
             !_authService.VerifyPasswordHash(
                 request.Password, user.PasswordHash, user.Salt))
@@ -44,7 +43,7 @@ public class AuthController : ControllerBase
         user.RefreshToken = refreshToken;
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
             _configurationService.JwtRefreshTokenExpirationDays);
-        _db.SaveChanges();
+        await _db.SaveChanges();
 
         return Ok(new LoginResponse
         {
@@ -56,11 +55,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh-token")]
-    public IActionResult Refresh([FromBody] RefreshTokenRequest request)
+    async public Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
     {
         var principal = _authService.GetPrincipalFromExpiredToken(request.AccessToken);
         var username = principal.Identity.Name; 
-        var user = _db.GetUser(username);
+        var user = await _db.GetUser(username);
 
         if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
         {
@@ -71,7 +70,7 @@ public class AuthController : ControllerBase
         var newRefreshToken = _authService.GenerateRefreshToken();
 
         user.RefreshToken = newRefreshToken;
-        _db.SaveChanges();
+        await _db.SaveChanges();
 
         return Ok(new RefreshTokenResponse
         {
@@ -81,9 +80,9 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterRequest request)
+    async public Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        var existingUser = _db.GetUser(request.Username);
+        var existingUser = await _db.GetUser(request.Username);
         if (existingUser != null)
         {
             return BadRequest("Username already exists.");
@@ -102,7 +101,7 @@ public class AuthController : ControllerBase
 
         try
         {
-            _db.AddUser(user);
+            await _db.AddUser(user);
         }
         catch (Exception ex)
         {
@@ -114,12 +113,12 @@ public class AuthController : ControllerBase
 
     [Authorize]
     [HttpGet("validate-token")]
-    public IActionResult ValidateToken()
+    async public Task<IActionResult> ValidateToken()
     {
         if (HttpContext.User.Identity is ClaimsIdentity identity)
         {
             var username = identity.FindFirst(ClaimTypes.Name)?.Value;
-            var user = _db.GetUser(username);
+            var user = await _db.GetUser(username);
 
             if (user is null)
             {
@@ -138,12 +137,12 @@ public class AuthController : ControllerBase
 
     [Authorize]
     [HttpGet("logout")]
-    public IActionResult Logout()
+    async public Task<IActionResult> Logout()
     {
         if (HttpContext.User.Identity is ClaimsIdentity identity)
         {
             var username = identity.FindFirst(ClaimTypes.Name)?.Value;
-            var user = _db.GetUser(username);   
+            var user = await _db.GetUser(username);   
 
             if (user is null)
             {
@@ -152,7 +151,7 @@ public class AuthController : ControllerBase
 
             user.RefreshToken = null;
             user.RefreshTokenExpiryTime = null;
-            _db.SaveChanges();
+            await _db.SaveChanges();
 
             return Ok();
         }
