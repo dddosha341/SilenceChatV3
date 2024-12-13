@@ -44,7 +44,9 @@ public static class MauiProgram
 #if WINDOWS
                 return new(logger, httpClientFactory, "http://localhost:7071");
 #elif ANDROID
-                return new(logger, httpClientFactory, "http://192.168.1.65:3000"); // specify for real android phone manually
+                return new(logger, httpClientFactory, "http://192.168.1.65:3000"); 
+#elif MACCATALYST || MACOS
+                return new(logger, httpClientFactory, "http://localhost:5000"); 
 #else
                 throw new PlatformNotSupportedException("ApiClientService configuration is not supported for this platform.");
 #endif
