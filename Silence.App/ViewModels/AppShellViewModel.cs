@@ -3,7 +3,7 @@ using Silence.Infrastructure.Services;
 using Silence.Infrastructure.Utils;
 using Silence.Infrastructure.ViewModels;
 
-namespace SilenceApp.ViewModels;
+namespace Silence.App.ViewModels;
 
 public class AppShellViewModel : BaseViewModel
 {

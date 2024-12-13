@@ -3,13 +3,28 @@
     x:Class="Silence.App.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Silence.App"
-    Shell.FlyoutBehavior="Disabled"
-    Title="Silence.App">
+    xmlns:pages="clr-namespace:Silence.App.Pages"
+    xmlns:vm="clr-namespace:Silence.App.ViewModels"
+    x:DataType="vm:AppShellViewModel"
+    Shell.FlyoutBehavior="Disabled">
+
+    <Shell.Triggers>
+        <DataTrigger TargetType="Shell"
+                     Binding="{Binding IsAuthenticated}"
+                     Value="True">
+            <Setter Property="FlyoutBehavior" Value="Flyout" />
+        </DataTrigger>
+
+    </Shell.Triggers>
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+        Title="Loading"
+        ContentTemplate="{DataTemplate pages:LoadingPage}"
+        Route="loading"
+        Shell.FlyoutItemIsVisible="False"/>
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate pages:LoginPage}"
+        Route="login"
+        Shell.FlyoutItemIsVisible="False"/>
 </Shell>
