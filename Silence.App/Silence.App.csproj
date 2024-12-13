@@ -62,4 +62,12 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Silence.Infrastructure\Silence.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\" />
+    </ItemGroup>
+
 </Project>

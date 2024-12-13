@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Silence.App.Pages.LoadingPage"
+             Title="Loading">
+    <ContentPage.Resources>
+        <!-- Define a gradient background using a custom style -->
+        <Style x:Key="GradientBackgroundStyle" TargetType="Grid">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#000428" Offset="0.0" />
+                        <GradientStop Color="#004e92" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Define a style for the Label -->
+        <Style x:Key="LoadingLabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid Style="{StaticResource GradientBackgroundStyle}">
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+            <!-- Animated Activity Indicator -->
+            <ActivityIndicator IsRunning="True" Color="#00FFDD" WidthRequest="50" HeightRequest="50" />
+            <!-- Styled Label -->
+            <Label Text="Loading..." Style="{StaticResource LoadingLabelStyle}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
