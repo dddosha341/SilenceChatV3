@@ -8,6 +8,7 @@
 
     <ContentPage.Resources>
         <!-- Define common styles -->
+        <!-- Define common styles -->
         <Style x:Key="EntryStyle" TargetType="Entry">
             <Setter Property="BackgroundColor" Value="#F5F5F5" />
             <Setter Property="TextColor" Value="Black" />
@@ -15,14 +16,12 @@
             <Setter Property="Margin" Value="0, 16, 0, 0" />
             <Setter Property="HeightRequest" Value="50" />
             <Setter Property="WidthRequest" Value="300" />
-            <!-- Adjusted height for the Entry -->
         </Style>
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="TextColor" Value="White" />
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="HeightRequest" Value="50" />
             <Setter Property="WidthRequest" Value="300" />
-            <!-- Adjusted height for the Button -->
             <Setter Property="Margin" Value="0, 16, 0, 0" />
         </Style>
     </ContentPage.Resources>
@@ -35,17 +34,17 @@
         </LinearGradientBrush>
     </ContentPage.Background>
     <ScrollView>
-    <VerticalStackLayout Spacing="24" Padding="256, 64" HorizontalOptions="Center" VerticalOptions="Center">
-        <!-- Futuristic Entry Fields -->
-        <Entry Placeholder="Login" Text="{Binding Login, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+        <VerticalStackLayout Spacing="24" Padding="256, 64" HorizontalOptions="Center" VerticalOptions="Center">
+            <!-- Futuristic Entry Fields -->
+            <Entry Placeholder="Login" Text="{Binding Login, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
 
-        <!-- Buttons -->
-        <Button Text="Sign In" BackgroundColor="#007AFF" Command="{Binding LoginCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
-        <Button Text="Sign Up" BackgroundColor="#4CD964" Command="{Binding RegisterCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
+            <!-- Buttons -->
+            <Button Text="Sign In" BackgroundColor="#007AFF" Command="{Binding LoginCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
+            <Button Text="Sign Up" BackgroundColor="#4CD964" Command="{Binding RegisterCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
 
-        <!-- Error Message -->
-        <Label Text="{Binding Error}" TextColor="DarkRed" HorizontalTextAlignment="Center" Margin="0, 16, 0, 0" />
-    </VerticalStackLayout>
+            <!-- Error Message -->
+            <Label Text="{Binding Error}" TextColor="DarkRed" HorizontalTextAlignment="Center" Margin="0, 16, 0, 0" />
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

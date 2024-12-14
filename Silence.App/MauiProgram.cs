@@ -19,7 +19,9 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
+            })
+            .RegisterServices()
+            .RegisterViewModels();
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -44,7 +46,7 @@ public static class MauiProgram
 #if WINDOWS
                 return new(logger, httpClientFactory, "http://localhost:7071");
 #elif ANDROID
-                return new(logger, httpClientFactory, "http://192.168.1.65:3000"); 
+                return new(logger, httpClientFactory, "http://10.0.2.2:7071"); 
 #elif MACCATALYST || MACOS
                 return new(logger, httpClientFactory, "http://localhost:5000"); 
 #else
