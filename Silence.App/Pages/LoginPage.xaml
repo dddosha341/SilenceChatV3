@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Silence.App.Pages.LoginPage"
+             Title="Login">
+    <ContentPage.Resources>
+        <Style x:Key="EntryStyle" TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F5F5F5" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="PlaceholderColor" Value="LightGray" />
+            <Setter Property="Margin" Value="0, 16, 0, 0" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="WidthRequest" Value="280" />
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="WidthRequest" Value="280" />
+            <!-- Adjusted height for the Button -->
+            <Setter Property="Margin" Value="0, 16, 0, 0" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.9" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,1">
+            <GradientStop Color="#0f2027" Offset="0.0" />
+            <GradientStop Color="#2c5364" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <ScrollView HorizontalOptions="Center" VerticalOptions="Center">
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="{Binding Error}" TextColor="DarkRed" FontSize="16" HorizontalTextAlignment="Center" Margin="16" />
+            
+            <Entry Placeholder="Login" Text="{Binding Login, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            <Button Text="Sign In" BackgroundColor="#007AFF" Command="{Binding LoginCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
+            <Button Text="Sign Up" BackgroundColor="#4CD964" Command="{Binding RegisterCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

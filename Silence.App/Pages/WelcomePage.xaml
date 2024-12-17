@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Silence.App.Pages.WelcomePage"
+             xmlns:vm="clr-namespace:Silence.Infrastructure.ViewModels;assembly=Silence.Infrastructure"
+             xmlns:dc="clr-namespace:Silence.Infrastructure.ViewModels;assembly=Silence.Infrastructure"
+             Title="Chats"
+             x:DataType="vm:WelcomeViewModel">
+
+
+    <ContentPage.Resources>
+        <Style x:Key="FrameStyle" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="BorderColor" Value="LightGray" />
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="HasShadow" Value="True" />
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="WidthRequest" Value="280" />
+            <Setter Property="Margin" Value="0, 16, 0, 0" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.9" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="DarkBlue" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Background>
+        <!-- Futuristic Gradient Background -->
+        <LinearGradientBrush EndPoint="1,1">
+            <GradientStop Color="#0f2027" Offset="0.0" />
+            <GradientStop Color="#2c5364" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <VerticalStackLayout Padding="20" Spacing="20">
+        <ScrollView HeightRequest="500">
+            <CollectionView ItemsSource="{Binding Rooms}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"
+                            VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dc:RoomViewModel">
+                        <Frame Style="{StaticResource FrameStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" 
+                                       Text="{Binding Name}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" 
+                                       VerticalOptions="Start"
+                                       Style="{StaticResource LabelStyle}" />
+
+                                <Label Grid.Row="1" Grid.Column="0" 
+                                       Text="{Binding Admin}" 
+                                       FontSize="14" 
+                                       VerticalOptions="End" 
+                                       Opacity="0.6"
+                                       Style="{StaticResource LabelStyle}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <Button Text="Create Room"
+                Command="{Binding CreateRoomCommand}"
+                Style="{StaticResource ButtonStyle}" />
+    </VerticalStackLayout>
+</ContentPage>
