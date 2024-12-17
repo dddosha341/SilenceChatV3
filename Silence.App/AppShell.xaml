@@ -27,4 +27,18 @@
         ContentTemplate="{DataTemplate pages:LoginPage}"
         Route="login"
         Shell.FlyoutItemIsVisible="False"/>
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate pages:WelcomePage}"
+        Route="welcome"/>
+        
+    <ShellContent
+        Title="Registration"
+        ContentTemplate="{DataTemplate pages:RegisterPage}"
+        Route="register"
+        Shell.FlyoutItemIsVisible="False"/>
+
+    <MenuItem
+        Text="Log Out"
+        Command="{Binding LogoutCommand}"/>
 </Shell>

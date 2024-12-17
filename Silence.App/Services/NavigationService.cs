@@ -30,6 +30,9 @@ internal static class RouteExtensions
     {
         Route.Back => "..",
         Route.Login => "login",
-       _ => throw new NotSupportedException($"Route {route} is not supported")
+        Route.Welcome => "welcome",
+        Route.Register => "register",
+        Route.ChatRoom => "chatRoom",
+        _ => throw new NotSupportedException($"Route {route} is not supported")
     };
 }

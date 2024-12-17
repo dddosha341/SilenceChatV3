@@ -4,7 +4,6 @@
              x:Class="Silence.App.Pages.LoadingPage"
              Title="Loading">
     <ContentPage.Resources>
-        <!-- Define a gradient background using a custom style -->
         <Style x:Key="GradientBackgroundStyle" TargetType="Grid">
             <Setter Property="Background">
                 <Setter.Value>

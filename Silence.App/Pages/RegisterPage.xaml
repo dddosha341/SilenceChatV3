@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Silence.App.Pages.LoginPage"
-             Title="Login">
+             x:Class="Silence.App.Pages.RegisterPage"
+             Title="Registration">
     <ContentPage.Resources>
         <Style x:Key="EntryStyle" TargetType="Entry">
             <Setter Property="BackgroundColor" Value="#F5F5F5" />
@@ -17,7 +17,6 @@
             <Setter Property="CornerRadius" Value="8" />
             <Setter Property="HeightRequest" Value="50" />
             <Setter Property="WidthRequest" Value="280" />
-            <!-- Adjusted height for the Button -->
             <Setter Property="Margin" Value="0, 16, 0, 0" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -42,13 +41,36 @@
     </ContentPage.Background>
     <ScrollView HorizontalOptions="Center" VerticalOptions="Center">
         <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <Label Text="{Binding Error}" TextColor="DarkRed" FontSize="16" HorizontalTextAlignment="Center" Margin="16" />
-            
-            <Entry Placeholder="Login" Text="{Binding Login, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
-            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
-            <Button Text="Sign In" BackgroundColor="#007AFF" Command="{Binding LoginCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
-            <Button Text="Sign Up" BackgroundColor="#4CD964" Command="{Binding RegisterCommand}" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" />
+            <Label Text="Sign In"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center"
+               TextColor="White"
+               FontSize="24"
+               FontAttributes="Bold"
+               Margin="0, 0, 0, 24"/>
 
+            <Frame HasShadow="True" CornerRadius="10" BackgroundColor="Transparent" HorizontalOptions="Center">
+                <Entry Placeholder="Login" Text="{Binding Login, Mode=OneWayToSource}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            </Frame>
+            <Frame HasShadow="True" CornerRadius="10" BackgroundColor="Transparent" HorizontalOptions="Center">
+                <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=OneWayToSource}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            </Frame>
+            <Frame HasShadow="True" CornerRadius="10" BackgroundColor="Transparent" HorizontalOptions="Center">
+                <Entry Placeholder="Email" Text="{Binding Email, Mode=OneWayToSource}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            </Frame>
+            <Frame HasShadow="True" CornerRadius="10" BackgroundColor="Transparent" HorizontalOptions="Center">
+                <Entry Placeholder="Full Name" Text="{Binding FullName, Mode=OneWayToSource}" Style="{StaticResource EntryStyle}" HorizontalOptions="FillAndExpand" />
+            </Frame>
+
+            <Button Text="Sign Up"
+                BackgroundColor="#007AFF"
+                Command="{Binding RegisterCommand}"
+                Style="{StaticResource ButtonStyle}" />
+
+            <Label Text="{Binding Error}"
+               TextColor="DarkRed"
+               HorizontalTextAlignment="Center"
+               Margin="0, 16" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

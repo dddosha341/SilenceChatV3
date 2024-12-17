@@ -66,7 +66,10 @@ public static class MauiProgram
     {
         builder.Services
             .AddTransient<AppShellViewModel>()
-            .AddTransient<LoginViewModel>();
+            .AddTransient<LoginViewModel>()
+            .AddTransient<WelcomeViewModel>()
+            .AddTransient<RegisterViewModel>()
+            .AddTransient<ChatViewModel>();
         return builder;
     }
 }

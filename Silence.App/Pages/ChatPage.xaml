@@ -1,0 +1,162 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Silence.Infrastructure.ViewModels;assembly=Silence.Infrastructure"
+             xmlns:dc="clr-namespace:Silence.Infrastructure.ViewModels;assembly=Silence.Infrastructure"
+             x:Class="Silence.App.Pages.ChatPage"
+             x:DataType="vm:ChatViewModel"
+             Title="{Binding Room.Name}">
+
+    <ContentPage.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="WidthRequest" Value="280" />
+            <Setter Property="Margin" Value="0, 16, 0, 0" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="Scale" Value="0.9" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20" BackgroundColor="#121212">
+
+        <StackLayout Grid.Row="0">
+            <Grid ColumnDefinitions="*,Auto,Auto" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                <Button Text="Del" 
+                        TextColor="Black"
+                        BackgroundColor="#FF4136" 
+                        Command="{Binding DeleteRoomCommand}" 
+                        FontSize="Small"
+                        WidthRequest="80"
+                        HeightRequest="30"
+                        Margin="10,0,0,0"
+                        Grid.Column="1"
+                        HorizontalOptions="End"/>
+
+                <Button Text="Edit" 
+                        TextColor="Black"
+                        BackgroundColor="#FF851B" 
+                        Command="{Binding EditRoomCommand}" 
+                        FontSize="Small"
+                        WidthRequest="80"
+                        HeightRequest="30"
+                        Margin="10,0,0,0"
+                        Grid.Column="2"
+                        HorizontalOptions="End"/>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,Auto" HeightRequest="50">
+                <Entry Placeholder="Enter text here"                
+                       Text="{Binding NewRoomName, Mode=TwoWay}"
+                       PlaceholderColor="LightGray"
+                       BackgroundColor="#F5F5F5"
+                       TextColor="Black"
+                       Margin="0,0,10,0"
+                       IsVisible="{Binding IsEditing}"
+                       Grid.Column="0" 
+                       WidthRequest="160"
+                       HeightRequest="30"
+                       HorizontalOptions="End"/>
+
+                <Button Text="Apply" 
+                        TextColor="White"
+                        BackgroundColor="#2ECC40" 
+                        Command="{Binding ApplyCommand}" 
+                        IsVisible="{Binding IsEditing}"
+                        Grid.Column="1"
+                        WidthRequest="80"
+                        HeightRequest="30"
+                        HorizontalOptions="End"/>
+            </Grid>
+        </StackLayout>
+
+        <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+            <CollectionView ItemsSource="{Binding Messages}"
+                            VerticalOptions="FillAndExpand"
+                            ItemsLayout="VerticalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dc:MessageViewModel">
+                        <Frame CornerRadius="10" Padding="10" Margin="5" BorderColor="LightGray" HasShadow="False" MinimumHeightRequest="100">
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsCurrentUser}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="#DCF8C6" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsCurrentUser}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="#FFFFFF" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                    Text="{Binding Content}" 
+                                    FontSize="18" 
+                                    FontAttributes="Bold" 
+                                    VerticalOptions="Start"
+                                    TextColor="#0074D9"
+                                    LineBreakMode="WordWrap"
+                                    Padding="5"
+                                    MaxLines="5"/>
+
+                                <Label Grid.Row="0" Grid.Column="2" 
+                                    Text="{Binding Timestamp, StringFormat='{0:HH:mm}'}" 
+                                    FontSize="14" 
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="End"
+                                    TextColor="Gray"
+                                    Margin="5,0"/>
+
+                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                    Text="{Binding FromUserName}" 
+                                    FontSize="14" 
+                                    VerticalOptions="End"
+                                    HorizontalOptions="Start"
+                                    Opacity="0.6"
+                                    TextColor="#0074D9"
+                                    Margin="5,0,0,5"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="0,10,0,0" HeightRequest="50">
+            <Entry Placeholder="Enter your message"
+                   Text="{Binding NewMessage, Mode=TwoWay}"
+                   PlaceholderColor="LightGray"
+                   BackgroundColor="#F5F5F5"
+                   TextColor="Black"
+                   Grid.Column="0"
+                   Margin="0,0,10,0"
+                   VerticalOptions="Center"
+                   HorizontalOptions="FillAndExpand"/>
+
+            <Button Text="Send" 
+                    BackgroundColor="#0074D9"
+                    TextColor="White"
+                    Command="{Binding SendMessageCommand}"
+                    Grid.Column="1"
+                    VerticalOptions="Center"/>
+        </Grid>
+    </Grid>
+</ContentPage>
