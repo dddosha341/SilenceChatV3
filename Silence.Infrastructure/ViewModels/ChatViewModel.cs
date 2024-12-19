@@ -53,7 +53,7 @@ namespace Silence.Infrastructure.ViewModels
             get { return _newRoomName; }
             set
             {
-                if (!value.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(value))
                     _newRoomName = value;
             }
         }

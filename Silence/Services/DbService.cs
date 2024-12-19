@@ -56,7 +56,13 @@ public class DbService
 
     async public Task<IEnumerable<Message>> GetMessages(int roomId)
     {
-        return _dbContext.Messages.Where(m => m.ToRoomId == roomId);
+        return _dbContext.Messages.Where(m => m.ToRoomId == roomId).Include(m => m.FromUser)
+                        .Include(m => m.ToRoom)
+                        .OrderByDescending(m => m.Timestamp)
+                        .Take(20)
+                        .AsEnumerable()
+                        .Reverse()
+                        .ToList();
     }
 
     async public Task<IEnumerable<Room>> GetRooms()
