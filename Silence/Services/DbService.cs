@@ -63,7 +63,7 @@ public class DbService
                         .AsEnumerable()
                         .Reverse()
                         .ToList();
-    }
+    } 
 
     async public Task<IEnumerable<Room>> GetRooms()
     {
