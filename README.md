@@ -2,6 +2,12 @@
 
 ## _THIS IS ALPHA VER._
 
+# DOCKER
+
+```
+docker run --name postgres-silence -e POSTGRES_USER=silence_user -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=silence_chat -p 5432:5432 -d postgres
+```
+
 ### Что из себя представляет приложение?
 
 Это кроссплатформенное приложение, созданное с помощью MAUI с использованием XAML разметки страниц.
