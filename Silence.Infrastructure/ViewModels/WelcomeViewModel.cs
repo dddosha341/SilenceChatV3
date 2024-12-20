@@ -12,8 +12,8 @@ namespace Silence.Infrastructure.ViewModels
         private readonly ApiClientService _apiClientService;
 
         public IEnumerable<RoomViewModel> Rooms { get; private set; }
-
         public ICommand CreateRoomCommand { get; }
+        public ICommand HandleSelectedItemChangedCommand { get; private set; }
 
         public WelcomeViewModel(INavigationService navigationService, 
             ApiClientService apiClientService,
@@ -26,6 +26,9 @@ namespace Silence.Infrastructure.ViewModels
             _secureStorageService = secureStorageService;
 
             CreateRoomCommand = new RelayCommand(CreateRoomButton);
+            
+            HandleSelectedItemChangedCommand = new RelayCommand(async () => await HandleSelectedItemChanged());
+
         }
 
         private RoomViewModel _selectedRoom;
@@ -64,14 +67,14 @@ namespace Silence.Infrastructure.ViewModels
             OnPropertyChanged(nameof(Rooms));
         }
 
-        private async void HandleSelectedItemChanged()
+        private async Task HandleSelectedItemChanged()
         {
             try
             {
                 await _navigationService.GoToAsync(Route.ChatRoom,
-                    new Dictionary<string, object>()
+                    new Dictionary<string, object>
                     {
-                    { ChatViewModel.ChatIdQueryKey, _selectedRoom.Id }
+                        { ChatViewModel.ChatIdQueryKey, _selectedRoom.Id }
                     });
             }
             catch

@@ -46,7 +46,7 @@ public class AuthenticationService : IAuthenticationService
                     username: login,
                     password: password,
                     cancellationToken);
-
+            /*todo разобраться не пускает в приложение macOS*/
             await _secureStorageService.SetAsync(SecureStorageKey.AccessToken, response.AccessToken);
             await _secureStorageService.SetAsync(SecureStorageKey.RefreshToken, response.RefreshToken);
             await _secureStorageService.SetAsync(SecureStorageKey.UserId, response.UserId.ToString());

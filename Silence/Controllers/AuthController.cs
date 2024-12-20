@@ -29,29 +29,38 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     async public Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var user = await _db.GetUser(request.UserName);
-        if (user == null ||
-            !_authService.VerifyPasswordHash(
-                request.Password, user.PasswordHash, user.Salt))
+        try
         {
-            return Unauthorized("Invalid username or password.");
+            var user = await _db.GetUser(request.UserName);
+            if (user == null ||
+                !_authService.VerifyPasswordHash(
+                    request.Password, user.PasswordHash, user.Salt))
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
+            var accessToken = _authService.GenerateAccessToken(user);
+            var refreshToken = _authService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
+                _configurationService.JwtRefreshTokenExpirationDays);
+            await _db.SaveChanges();
+
+            return Ok(new LoginResponse
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                UserId = user.Id,
+                Username = user.UserName
+            });
         }
-
-        var accessToken = _authService.GenerateAccessToken(user);
-        var refreshToken = _authService.GenerateRefreshToken();
-
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
-            _configurationService.JwtRefreshTokenExpirationDays);
-        await _db.SaveChanges();
-
-        return Ok(new LoginResponse
+        catch (Exception e)
         {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-            UserId = user.Id,
-            Username = user.UserName
-        });
+            Console.WriteLine(e);
+            Console.ReadKey();
+        }
+        return BadRequest();
     }
 
     [HttpPost("refresh-token")]
