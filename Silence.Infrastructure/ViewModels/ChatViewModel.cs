@@ -117,7 +117,7 @@ namespace Silence.Infrastructure.ViewModels
                 Avatar = "false",
                 Content = NewMessage,
                 FromFullName = admin,
-                Timestamp = DateTime.Now,
+                Timestamp = DateTime.Now.ToUniversalTime(),
                 FromUserName = admin,
                 Room = this.Room.Name,
             };

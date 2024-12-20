@@ -71,7 +71,7 @@ namespace Silence.Web.Controllers
                 Content = Regex.Replace(viewModel.Content, @"<.*?>", string.Empty),
                 FromUser = user,
                 ToRoom = room,
-                Timestamp = DateTime.Now
+                Timestamp = DateTime.Now.ToUniversalTime()
             };
 
             await _db.AddMessage(msg);
