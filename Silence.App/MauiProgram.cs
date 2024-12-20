@@ -43,12 +43,10 @@ public static class MauiProgram
                 var logger = provider.GetRequiredService<ILogger<ApiClientService>>();
                 var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
 
-#if WINDOWS
-                return new(logger, httpClientFactory, "http://localhost:7071");
+#if WINDOWS || MACCATALYST || MACOS
+                return new(logger, httpClientFactory, "http://127.0.0.1:7071");
 #elif ANDROID
                 return new(logger, httpClientFactory, "http://10.0.2.2:7071"); 
-#elif MACCATALYST || MACOS
-                return new(logger, httpClientFactory, "http://localhost:5000"); 
 #else
                 throw new PlatformNotSupportedException("ApiClientService configuration is not supported for this platform.");
 #endif
