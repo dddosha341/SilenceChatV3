@@ -58,12 +58,6 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="dc:RoomViewModel">
                         <Frame Style="{StaticResource FrameStyle}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WelcomeViewModel}}, Path=HandleSelectedItemChangedCommand}" 
-                                    CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
-
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
