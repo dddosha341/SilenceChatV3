@@ -58,7 +58,7 @@ public class DbService
     {
         return _dbContext.Messages.Where(m => m.ToRoomId == roomId).Include(m => m.FromUser)
                         .Include(m => m.ToRoom)
-                        .OrderByDescending(m => m.Timestamp)
+                        .OrderByDescending(m => m.Timestamp.ToUniversalTime())
                         .Take(20)
                         .AsEnumerable()
                         .Reverse()

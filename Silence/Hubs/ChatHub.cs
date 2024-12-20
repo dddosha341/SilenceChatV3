@@ -42,7 +42,7 @@ namespace Silence.Web.Hubs
                         FromFullName = sender.FullName,
                         Avatar = sender.Avatar,
                         Room = "",
-                        Timestamp = DateTime.Now
+                        Timestamp = DateTime.Now.ToUniversalTime()
                     };
 
                     await Clients.Client(userId).SendAsync("newMessage", messageViewModel);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Silence.Web.Entities
 {
@@ -6,6 +7,8 @@ namespace Silence.Web.Entities
     {
         public int Id { get; set; }
         public string Content { get; set; }
+
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime Timestamp { get; set; }
         public User FromUser { get; set; }
         public int ToRoomId { get; set; }

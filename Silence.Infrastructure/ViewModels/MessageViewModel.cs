@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Silence.Infrastructure.ViewModels
 {
@@ -9,6 +10,8 @@ namespace Silence.Infrastructure.ViewModels
 
         [Required]
         public string Content { get; set; }
+
+        [Column(TypeName = "timestamp with time zone")]
         public DateTime Timestamp { get; set; }
         public string FromUserName { get; set; }
         public string FromFullName { get; set; }
