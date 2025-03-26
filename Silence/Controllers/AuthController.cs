@@ -26,11 +26,13 @@ public class AuthController : ControllerBase
         _db = db;
     }
 
+    //Сделали ручку асинхронной
     [HttpPost("login")]
     async public Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         try
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var user = await _db.GetUser(request.UserName);
             if (user == null ||
                 !_authService.VerifyPasswordHash(
@@ -45,6 +47,7 @@ public class AuthController : ControllerBase
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(
                 _configurationService.JwtRefreshTokenExpirationDays);
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.SaveChanges();
 
             return Ok(new LoginResponse
@@ -63,11 +66,13 @@ public class AuthController : ControllerBase
         return BadRequest();
     }
 
+    //Сделали ручку асинхронной
     [HttpPost("refresh-token")]
     async public Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
     {
         var principal = _authService.GetPrincipalFromExpiredToken(request.AccessToken);
-        var username = principal.Identity.Name; 
+        var username = principal.Identity.Name;
+        //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
         var user = await _db.GetUser(username);
 
         if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
@@ -79,6 +84,7 @@ public class AuthController : ControllerBase
         var newRefreshToken = _authService.GenerateRefreshToken();
 
         user.RefreshToken = newRefreshToken;
+        //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
         await _db.SaveChanges();
 
         return Ok(new RefreshTokenResponse
@@ -88,9 +94,11 @@ public class AuthController : ControllerBase
         });
     }
 
+    //Сделали ручку асинхронной
     [HttpPost("register")]
     async public Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
+        //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
         var existingUser = await _db.GetUser(request.Username);
         if (existingUser != null)
         {
@@ -110,6 +118,7 @@ public class AuthController : ControllerBase
 
         try
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.AddUser(user);
         }
         catch (Exception ex)
@@ -120,6 +129,7 @@ public class AuthController : ControllerBase
         return Ok("User registered successfully.");
     }
 
+    //Сделали ручку асинхронной
     [Authorize]
     [HttpGet("validate-token")]
     async public Task<IActionResult> ValidateToken()
@@ -127,6 +137,7 @@ public class AuthController : ControllerBase
         if (HttpContext.User.Identity is ClaimsIdentity identity)
         {
             var username = identity.FindFirst(ClaimTypes.Name)?.Value;
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var user = await _db.GetUser(username);
 
             if (user is null)
@@ -144,6 +155,7 @@ public class AuthController : ControllerBase
         return Unauthorized();
     }
 
+    //Сделали ручку асинхронной
     [Authorize]
     [HttpGet("logout")]
     async public Task<IActionResult> Logout()
@@ -151,6 +163,7 @@ public class AuthController : ControllerBase
         if (HttpContext.User.Identity is ClaimsIdentity identity)
         {
             var username = identity.FindFirst(ClaimTypes.Name)?.Value;
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var user = await _db.GetUser(username);   
 
             if (user is null)
@@ -160,6 +173,7 @@ public class AuthController : ControllerBase
 
             user.RefreshToken = null;
             user.RefreshTokenExpiryTime = null;
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.SaveChanges();
 
             return Ok();

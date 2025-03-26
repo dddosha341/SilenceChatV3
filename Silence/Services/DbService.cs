@@ -7,6 +7,10 @@ using Silence.Web.Entities;
 
 namespace Silence.Web.Services;
 
+//
+//DB SERVICE для ассинхронной работы с СУБД
+//
+
 public class DbService
 {
     private readonly AppDbContext _dbContext;

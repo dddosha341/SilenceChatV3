@@ -30,7 +30,7 @@ namespace Silence.Web.Controllers
             _mapper = mapper;
             _hubContext = hubContext;
         }
-
+        //Сделали ручку асинхронной
         [HttpGet]
         async public Task<IActionResult>  Get()
         {
@@ -39,6 +39,7 @@ namespace Silence.Web.Controllers
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
                 var username = identity.FindFirst(ClaimTypes.Name)?.Value;
+                //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
                 user = await _db.GetUser(username);
             }
 
@@ -47,6 +48,7 @@ namespace Silence.Web.Controllers
                 return Unauthorized();
             }
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var rooms = await _db.GetRooms();
 
             var roomsViewModel = _mapper.Map<IEnumerable<Room>, IEnumerable<RoomViewModel>>(rooms);
@@ -64,6 +66,7 @@ namespace Silence.Web.Controllers
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
                 var username = identity.FindFirst(ClaimTypes.Name)?.Value;
+                //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
                 user = await _db.GetUser(username);
             }
 
@@ -72,6 +75,7 @@ namespace Silence.Web.Controllers
                 return Unauthorized();
             }
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var room = await _db.GetRoom(id);
             if (room == null)
                 return NotFound();
@@ -83,10 +87,11 @@ namespace Silence.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<Room>> Create(RoomViewModel viewModel)
         {
-
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             if (await _db.IsExistsRoom(viewModel.Name))
                 return BadRequest("Invalid room name or room already exists");
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var user = await _db.GetUser(User.Identity.Name);
             var room = new Room()
             {
@@ -94,6 +99,7 @@ namespace Silence.Web.Controllers
                 Admin = user
             };
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.AddRoom(room);
             await _db.SaveChanges();
 
@@ -106,6 +112,7 @@ namespace Silence.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(int id, RoomViewModel viewModel)
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             if (await _db.IsExistsRoom(viewModel.Name))
                 return BadRequest("Invalid room name or room already exists");
 
@@ -115,6 +122,7 @@ namespace Silence.Web.Controllers
                 return NotFound();
 
             room.Name = viewModel.Name;
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.SaveChanges();
 
             var updatedRoom = _mapper.Map<Room, RoomViewModel>(room);
@@ -126,11 +134,13 @@ namespace Silence.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var room = await _db.GetRoomByAdmin(id, User.Identity.Name);
 
             if (room == null)
                 return NotFound();
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.RemoveRoom(room);
             await _db.SaveChanges();
 
