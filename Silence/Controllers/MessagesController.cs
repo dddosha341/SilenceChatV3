@@ -36,6 +36,7 @@ namespace Silence.Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> Get(int id)
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var message = await _db.GetMessage(id);
             if (message == null)
                 return NotFound();
@@ -44,13 +45,16 @@ namespace Silence.Web.Controllers
             return Ok(messageViewModel);
         }
 
+        //Сделали ручку асинхронной
         [HttpGet("Room/{roomName}")]
         public async Task<IActionResult> GetMessages(string roomName)
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var room = await _db.GetRoom(roomName);
             if (room == null)
                 return BadRequest();
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var messages = await _db.GetMessages(room.Id);
 
             var messagesViewModel = _mapper.Map<IEnumerable<Message>, IEnumerable<MessageViewModel>>(messages);
@@ -61,6 +65,7 @@ namespace Silence.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<Message>> Create(MessageViewModel viewModel)
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var user = await _db.GetUser(User.Identity.Name);
             var room = await _db.GetRoom(viewModel.Room);
             if (room == null)
@@ -74,6 +79,7 @@ namespace Silence.Web.Controllers
                 Timestamp = DateTime.Now.ToUniversalTime()
             };
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.AddMessage(msg);
             await _db.SaveChanges();
 
@@ -87,11 +93,13 @@ namespace Silence.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             var message = await _db.GetMessage(id);
 
             if (message == null)
                 return NotFound();
 
+            //Взаимодействие с СУБД должно быть асинхронным, для 100% результата
             await _db.DeleteMessage(message); 
             await _db.SaveChanges();
 
