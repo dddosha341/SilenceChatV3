@@ -7,7 +7,7 @@ namespace Silence.Web.Entities
     {
         public int Id { get; set; }
         public string Content { get; set; }
-
+        //Создан атрибут для понимания, что время международное
         [Column(TypeName = "timestamp with time zone")]
         public DateTime Timestamp { get; set; }
         public User FromUser { get; set; }
