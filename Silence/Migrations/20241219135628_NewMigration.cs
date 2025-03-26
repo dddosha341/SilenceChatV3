@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+//Миграция на Postgre
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
