@@ -15,7 +15,7 @@ public partial class AppShell : Shell
 
         BindingContext = MauiProgram.Services.GetRequiredService<AppShellViewModel>();
     }
-
+    //добавление роутингов
     private void RegisterRoutes()
     {
         Routing.RegisterRoute(Route.Login.MapRouteToPath(), typeof(LoginPage));
