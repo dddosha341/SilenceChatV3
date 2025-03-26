@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+//Миграция на Postgre
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Silence.Web.Data;
 
