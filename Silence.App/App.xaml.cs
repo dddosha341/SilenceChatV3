@@ -2,7 +2,7 @@
 using Silence.Infrastructure.Services;
 
 namespace Silence.App;
-
+//Добавление поведения главной страницы
 public partial class App : Application
 {
     private readonly ILogger<App> _logger;
