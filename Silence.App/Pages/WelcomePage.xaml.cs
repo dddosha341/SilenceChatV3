@@ -1,3 +1,4 @@
+//Реализация логики поведения на страничке
 using Silence.Infrastructure.ViewModels;
 
 namespace Silence.App.Pages;

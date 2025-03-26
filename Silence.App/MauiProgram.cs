@@ -62,6 +62,7 @@ public static class MauiProgram
 
     private static MauiAppBuilder RegisterViewModels(this MauiAppBuilder builder)
     {
+        //регистрация сервисов для сборщика MAUI Проекта
         builder.Services
             .AddTransient<AppShellViewModel>()
             .AddTransient<LoginViewModel>()
