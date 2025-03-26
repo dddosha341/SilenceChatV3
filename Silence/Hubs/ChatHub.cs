@@ -37,6 +37,7 @@ namespace Silence.Web.Hubs
                 {
                     var messageViewModel = new MessageViewModel()
                     {
+                        //ToUniversalTime() для PostgreSQL, потому что он не воспринимает обычное время, только международное
                         Content = Regex.Replace(message, @"<.*?>", string.Empty),
                         FromUserName = sender.UserName,
                         FromFullName = sender.FullName,

@@ -114,6 +114,7 @@ namespace Silence.Infrastructure.ViewModels
             var admin = await _secureStorageService.GetAsync(SecureStorageKey.Username);
             MessageViewModel viewModel = new MessageViewModel()
             {
+                //ToUniversalTime() для PostgreSQL, потому что он не воспринимает обычное время, только международное
                 Avatar = "false",
                 Content = NewMessage,
                 FromFullName = admin,
