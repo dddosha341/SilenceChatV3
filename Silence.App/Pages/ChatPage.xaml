@@ -44,7 +44,7 @@
             <Button Text="Edit" 
                     Command="{Binding EditRoomCommand}" 
                     Grid.Column="1" />
-
+            <!--Добавлена кнопка Delete-->
             <Button Text="Del" 
                     Command="{Binding DeleteRoomCommand}" 
                     BackgroundColor="#FF3B30" 
